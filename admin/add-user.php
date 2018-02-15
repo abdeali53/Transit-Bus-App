@@ -10,20 +10,8 @@ $newuser["pass"] = $_POST['password'];
 // @TODO: your database code should  here
 //---------------------------------------------------
 // Credentials
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "transit_database";
-
-// 1. Create a database connection
-$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-// show an error message if PHP cannot connect to the database
-if (mysqli_connect_errno())
-{
- echo "Failed to connect to MySQL: " . mysqli_connect_error();
- exit();
-}
+require("../dbconnection.php");
+$connection = connect();
 
 //INSERT INTO `employees` (`id`, `first_name`, `last_name`, `hire_date`) VALUES ('2', 'sss', 'www', '2017-08-07');
 // 2. Perform database query (INSERT DATA IN TABLE)

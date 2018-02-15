@@ -46,20 +46,8 @@ $time = $newroute['hours'] . ":" . $newroute['minutes'] . $newroute['ampm'];
 // @TODO: your database code should  here
 //---------------------------------------------------
 // Credentials
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "transit_database";
-
-// 1. Create a database connection
-$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-// show an error message if PHP cannot connect to the database
-if (mysqli_connect_errno())
-{
- echo "Failed to connect to MySQL: " . mysqli_connect_error();
- exit();
-}
+require("../dbconnection.php");
+$connection = connect();
 
 //INSERT INTO `route` (`route_id`, `from_address`, `to_address`, `time`, `is_avail_monday`, `is_avail_tuesday`, `is_avail_wednesday`, `is_avail_thursday`, `is_avail_friday`, `is_avail_saturday`) VALUES ('17', 'Lambton', 'Brampton', '12:30PM', '1', '1', '1', '1', '1', '1');
 

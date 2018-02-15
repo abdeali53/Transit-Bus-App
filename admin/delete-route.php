@@ -2,7 +2,7 @@
   if (isset($_GET["id"]) == FALSE) {
     // missing an id parameters, so
     // redirect person back to add employee page
-    header("Location: " . "employees.php");
+    header("Location: " . "index.php");
     exit();
   }
 

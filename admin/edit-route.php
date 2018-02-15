@@ -2,7 +2,7 @@
 if (isset($_GET["id"]) == FALSE) {
   // missing an id parameters, so
   // redirect person back to add employee page
-  header("Location: " . "index.html");
+  header("Location: " . "index.php");
   exit();
 }
 
@@ -12,17 +12,8 @@ $id = $_GET["id"];
 
 // @TODO: your database code should  here
 //---------------------------------------------------
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "transit_database";
-
-$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-if (mysqli_connect_errno())
-{
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
+require("../dbconnection.php");
+$connection = connect();
 
 $sql 	 = "SELECT * FROM route ";
 $sql 	.= "WHERE route_id='" . $id . "'";
