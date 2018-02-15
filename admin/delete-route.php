@@ -1,3 +1,22 @@
+<?php if(isset($_COOKIE['tokenid'])) 
+ { 
+  $tokenID = $_COOKIE['tokenid'];
+
+  require("../dbconnection.php");
+  $connection = connect();
+  
+  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
+
+  $results2 = mysqli_query($connection, $sql2);     
+  $correctuser = mysqli_fetch_assoc($results2);
+  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
+    // there was an error in the sql 
+    echo "erro";
+    // header("Location: " . "../log.php");
+    exit();
+  }
+  
+?>
 <?php
   if (isset($_GET["id"]) == FALSE) {
     // missing an id parameters, so
@@ -129,3 +148,8 @@
     
   </body>
 </html>
+ <?php 
+}else{
+  header("Location: " . "../log.php");
+}
+  ?>
