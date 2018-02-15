@@ -23,6 +23,7 @@
                             <strong class="card-title">All Routes</strong>
                         </div>
                         <div class="card-body">
+                            <div id="nextBusError"></div>
                             <table class="table">
                               <thead class="thead-dark">
                                 <tr>
@@ -34,36 +35,8 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <?php
-
-                                $dbhost = "localhost";
-                                $dbuser = "root";
-                                $dbpass = "";
-                                $dbname = "transit_database";
-
-                                // 1. Create a database connection
-                                $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-                                // show an error message if PHP cannot connect to the database
-                                if (mysqli_connect_errno())
-                                {
-                                echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                                exit();
-                                }
-
-                                $sql = "SELECT * FROM route";
-
-                                $results = mysqli_query($connection, $sql);
-
-                                while ($route = mysqli_fetch_assoc($results)) { ?>
-                                <tr class="btnDelete" data-id="2">
-                                  <th scope="row"><?php echo $route['route_id']; ?></th>
-                                  <td><?php echo $route['from_address']; ?></td>
-                                  <td><?php echo $route['to_address']; ?></td>
-                                  <td><?php echo $route['time']; ?></td>
-                                  <td><a href = "<?php echo 'edit-route.php?id=' . $route['route_id']; ?>">Google Map</a> </td>
-                                  <?php } ?>
-                                </tr>
+                                
+                                
                               </tbody>
                             </table>
                              
@@ -88,11 +61,32 @@
     <script src="../assets/js/plugins.js"></script>
     <script src="../assets/js/main.js"></script>
 
-    <?php
-    // clean up and close database
-    mysqli_free_result($results);
-    mysqli_close($connection);
-  ?>
+    <script>
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        var urlAdd = "../api/get-all-bus.php";
+        $.ajax({type: "GET",
+        url: urlAdd,        
+        success:function(result) {
+            $("tbody").append('
+            <tr class="btnDelete" data-id="2"><th scope="row">'+
+             $route['route_id']; ?></th>
+                                  <td><?php echo $route['from_address']; ?></td>
+                                  <td><?php echo $route['to_address']; ?></td>
+                                  <td><?php echo $route['time']; ?></td>
+                                  <td><a href = "<?php echo 'edit-route.php?id=' . $route['route_id']; ?>">Google Map</a> </td>
+                                 
+                                </tr>')
+        },
+        error:function(result) {
+            $("#nextBusError").html(
+                    '<div class="alert alert-danger" role="alert">'+
+                    'Something went wrong. Please contact admin'+
+                    '</div>'
+                );
+        }
+    });
+    </script>
 
 </body>
 </html>
