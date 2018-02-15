@@ -66,7 +66,7 @@
 
                     <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
                     <li class="menu-item">
-                        <a href="#"> <i class="menu-icon fa fa-glass"></i>Logout</a>
+                        <a href="logout.php"> <i class="menu-icon fa fa-glass"></i>Logout</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
