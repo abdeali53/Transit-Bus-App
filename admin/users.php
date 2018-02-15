@@ -27,20 +27,8 @@
                               <tbody>
                                 <?php
 
-                                $dbhost = "localhost";
-                                $dbuser = "root";
-                                $dbpass = "";
-                                $dbname = "transit_database";
-
-                                // 1. Create a database connection
-                                $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-                                // show an error message if PHP cannot connect to the database
-                                if (mysqli_connect_errno())
-                                {
-                                echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                                exit();
-                                }
+                                require("../dbconnection.php");
+                                $connection = connect();
 
                                 $sql = "SELECT * FROM user";
 
