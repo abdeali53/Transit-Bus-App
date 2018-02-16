@@ -11,14 +11,11 @@
   $correctuser = mysqli_fetch_assoc($results2);
   if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
     // there was an error in the sql 
-    echo "erro";
-    // header("Location: " . "../log.php");
+    header("Location: " . "../log.php");
     exit();
   }
-  
 ?>
 <?php include 'master-page/left-panel.php' ?>
-
 
         <!-- Left Panel -->
 
