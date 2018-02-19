@@ -28,32 +28,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $totalBookedSeat = $data["BookedSeat"];
             $ticketAmount = 5;
             //$totalBookedSeat=4;
-            if($totalBookedSeat == 0){
-                
+            if($totalSeat>$totalBookedSeat){
+                if(!$totalSeat-$totalBookedSeat>5){
+                    $ticketAmount += ( ($totalSeat-($totalSeat-$totalBookedSeat)) * 0.15);
+                }
+                session_start();
+            
+                $_SESSION['destination'] =$_POST['destination'];
+                $_SESSION['source'] =$_POST['source'];
+                $_SESSION['bookingDate'] =$bookingDateFormat;
+                $_SESSION['routeId'] =$_POST['radioTime'];
+                $_SESSION['time'] = $time;
+                $_SESSION['ticketAmount'] = $ticketAmount;
+                $_SESSION['ticketNo'] = $totalBookedSeat+1;            
+                header("Location: " . "confirm-booking.php");
             }
             else{
-                if($totalSeat>=$totalBookedSeat){
-                    if($totalSeat-$totalBookedSeat>5){
-                        echo '<br>'. $ticketAmount;
-                        echo 'Fare is 50 dollar';
-                    }
-                    else{
-                        
-                        $ticketAmount += ( ($totalSeat-($totalSeat-$totalBookedSeat)) * 0.15);
-                        echo '<br> New Rates'. $ticketAmount;
-                    }
-                }
+                echo '<script language="javascript">';
+                echo 'alert("No Seat Available.")';
+                echo '</script>';
             }
-            session_start();
             
-            $_SESSION['destination'] =$_POST['destination'];
-            $_SESSION['source'] =$_POST['source'];
-            $_SESSION['bookingDate'] =$bookingDateFormat;
-            $_SESSION['routeId'] =$_POST['radioTime'];
-            $_SESSION['time'] = $time;
-            $_SESSION['ticketAmount'] = $ticketAmount;
-            $_SESSION['ticketNo'] = $totalBookedSeat+1;            
-            header("Location: " . "confirm-booking.php");
         }
 
 

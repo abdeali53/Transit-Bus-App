@@ -16,10 +16,7 @@ else{
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // echo $_POST['bookingDate'];
-    // echo $_POST['routeId'];
-    // echo $_POST['amount'];
-    // echo $_POST['seatNo'];
+    
     require("../dbconnection.php");
     $connection = connect();
 
@@ -52,9 +49,12 @@ if ($results == FALSE) {
     echo "SQL command: " . $sql;
     exit();
   }else{
+      $id = $connection->insert_id;
       // 5. Close database connection
       mysqli_close($connection);
-      header("Location: " . "book-ticket.php");
+      session_unset();     
+      header("Location: " . "../student/view-ticket.php?id=".$id);
+      //header("Location: " . "book-ticket.php");
   }
 
 // 4. Release returned data

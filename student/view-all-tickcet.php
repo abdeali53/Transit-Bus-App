@@ -19,6 +19,7 @@
                           <th scope="col">Time</th>
                           <th scope="col">Booking Date</th>
                           <th scope="col">Price</th>
+                          <th scope="col">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -55,7 +56,8 @@
                                   '<td>'+result[i].time+'</td>'+
                                   '<td>'+result[i].BookingDate+'</td>'+
                                   '<td>'+result[i].Price+'</td>' +
-                                   '</tr>');       
+                                  '<td>'+'<a href ="view-ticket.php?id='+result[i].Id +'">View</a> </td>'+
+                                    '</tr>');       
                 }
             }
             

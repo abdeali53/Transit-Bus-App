@@ -18,7 +18,7 @@ require("../dbconnection.php");
       exit();
     }    
 
-    $query =  'Select bus.BookingDate, bus.SeatNo,bus.Price,route.time, route.from_address,route.to_address from bus_ticket bus LEFT JOIN route on route.route_id=bus.RouteId where bus.UserId='.$UserId.' ORDER BY BookingDate DESC, bus.Id DESC';
+    $query =  'Select bus.Id,bus.BookingDate, bus.SeatNo,bus.Price,route.time, route.from_address,route.to_address from bus_ticket bus LEFT JOIN route on route.route_id=bus.RouteId where bus.UserId='.$UserId.' ORDER BY BookingDate DESC, bus.Id DESC';
 
     $results = mysqli_query($connection, $query);
 
@@ -37,7 +37,8 @@ if(mysqli_num_rows($results) > 0){
         "Price" => number_format((float)$e["Price"], 2, '.', ''),
         "time" => $e["time"],
         "from_address" => $e["from_address"],
-        "to_address" => $e["to_address"]
+        "to_address" => $e["to_address"],
+        "Id" => $e["Id"]
         );
         array_push($busroute, $item);
      }     

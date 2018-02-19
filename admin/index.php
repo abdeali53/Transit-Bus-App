@@ -43,7 +43,7 @@
                                   <td><?php echo $route['from_address']; ?></td>
                                   <td><?php echo $route['to_address']; ?></td>
                                   <td><?php  echo $route['time']; ?></td>
-                                  <td><a href = "<?php echo 'edit-route.php?id=' . $route['route_id']; ?>">Edit</a> <a href="<?php echo 'delete-route.php?id=' . $route['route_id']; ?>">delete</a>
+                                  <td><a href = "<?php echo 'edit-route.php?id=' . $route['route_id']; ?>">Edit</a> <a href="<?php echo 'delete-route.php?id=' . $route['route_id']; ?>">Delete</a>
                                   <?php } ?>
                                 </tr>
                               </tbody>
