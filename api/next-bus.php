@@ -45,7 +45,7 @@ require("../dbconnection.php");
     // echo $toAddress;
     // echo $fromAddress;
     $query =  "SELECT  *, STR_TO_DATE(time,'%h:%i %p') as Time from route where from_address='"
-                . $fromAddress ."' and to_address= '". $toAddress ."'"." AND ".$isavailable."=1 and STR_TO_DATE(time,'%h:%i %p') > CURRENT_TIME() Limit 1";
+                . $fromAddress ."' and to_address= '". $toAddress ."'"." AND ".$isavailable."=1 and STR_TO_DATE(time,'%h:%i %p') > CURRENT_TIME() ORDER BY STR_TO_DATE(time,'%h:%i %p') Limit 1";
     
     $results = mysqli_query($connection, $query);
 
@@ -94,7 +94,7 @@ else{
         $isavailable ='is_avail_monday';
     }
     $query =  "SELECT  *, STR_TO_DATE(time,'%h:%i %p') as Time from route where from_address='"
-                . $fromAddress ."' and to_address= '". $toAddress ."'"." AND is_avail_monday=1 and STR_TO_DATE(time,'%h:%i %p') > CURRENT_TIME() LIMIT 1";
+                . $fromAddress ."' and to_address= '". $toAddress ."'"." AND is_avail_monday=1 and STR_TO_DATE(time,'%h:%i %p') > CURRENT_TIME() ORDER BY STR_TO_DATE(time,'%h:%i %p') LIMIT 1";
     
     $results = mysqli_query($connection, $query);
 

@@ -8,7 +8,8 @@ if(isset($_SESSION['destination'])){
     $routeId = $_SESSION['routeId'];
     $time = $_SESSION['time'];
     $ticketAmount = $_SESSION['ticketAmount'];
-    $seatNo = 'LAMB - '. $_SESSION['ticketNo'];    
+    $seatNo = 'LAMB - '. $_SESSION['ticketNo'];   
+    // session_unset();    
 }
 else{
     header("Location: " . "index.php");

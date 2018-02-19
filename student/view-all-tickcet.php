@@ -1,4 +1,7 @@
 <?php include 'master-page/left-panel.php' ?>
+<?php 
+$userId =1;
+?>
 <div id="right-panel" class="right-panel">
 
 <!-- Header-->
@@ -43,7 +46,7 @@
 <script>
     $( document ).ready(function() {
         console.log( "ready!" );
-        var urlAdd = "../api/getAllBookingById.php?UserId=1";
+        var urlAdd = "../api/getAllBookingById.php?UserId="+ <?php echo $userId ?>;
         $.ajax({type: "GET",
         url: urlAdd,        
         success:function(result) {
