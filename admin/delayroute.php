@@ -4,7 +4,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $dbhost = "localhost";
       $dbuser = "root";
-      $dbpass = "root";
+      $dbpass = "";
       $dbname = "transit";
 
       // 1. Create a database connection
@@ -79,7 +79,7 @@ else if($_SERVER['REQUEST_METHOD'] == 'GET') {
   //---------------------------------------------------
   $dbhost = "localhost";
   $dbuser = "root";
-  $dbpass = "root";
+  $dbpass = "";
   $dbname = "transit";
 
   $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
