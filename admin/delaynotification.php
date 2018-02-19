@@ -57,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user['phone_number'],
         array(
             'from' => $twilio_number,
-            'body' => 'Next bus will going to be delayed!!!'
+            'body' => 'Next bus will be delayed!!!'
         )
     );
    }
