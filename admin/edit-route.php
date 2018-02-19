@@ -1,27 +1,8 @@
-<?php if(isset($_COOKIE['tokenid'])) 
- { 
-  $tokenID = $_COOKIE['tokenid'];
-
-  require("../dbconnection.php");
-  $connection = connect();
-  
-  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
-
-  $results2 = mysqli_query($connection, $sql2);     
-  $correctuser = mysqli_fetch_assoc($results2);
-  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
-    // there was an error in the sql 
-    echo "erro";
-    // header("Location: " . "../log.php");
-    exit();
-  }
-  
-?>
 <?php
 if (isset($_GET["id"]) == FALSE) {
   // missing an id parameters, so
   // redirect person back to add employee page
-  header("Location: " . "index.php");
+  header("Location: " . "index.html");
   exit();
 }
 
@@ -31,8 +12,17 @@ $id = $_GET["id"];
 
 // @TODO: your database code should  here
 //---------------------------------------------------
-require("../dbconnection.php");
-$connection = connect();
+$dbhost = "localhost";
+$dbuser = "root";
+$dbpass = "root";
+$dbname = "transit";
+
+$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+if (mysqli_connect_errno())
+{
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  exit();
+}
 
 $sql 	 = "SELECT * FROM route ";
 $sql 	.= "WHERE route_id='" . $id . "'";
@@ -82,23 +72,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   // get items from DATABASE
   $newroute = [];
-  $newroute["rno"] = $_POST['routeNumber'];
-  $newroute["bno"] = $_POST['busNumber'];
   $newroute["src"] = $_POST['source'];
   $newroute["dest"] = $_POST['destination'];
-  $newroute["arrTime"] = $_POST['arrivalTime'];
-  $newroute["deptTime"] = $_POST['departTime'];
-  $newroute["is_available_Sat"] = $_POST['is_available_Saturday'];
+  $newroute["time"] = $_POST['hours'] . ":" . $_POST['minutes'] . $_POST['ampm'];
+  if ($_POST['monday'] == "Monday") {
+    $newroute["monday"] = 1;
+  }
+  else {
+    $newroute["monday"] = 0;
+  }
+  if ($_POST['tuesday'] == "Tuesday") {
+    $newroute["tuesday"] = 1;
+  }
+  else {
+    $newroute["tuesday"] = 0;
+  }
+  if ($_POST['wednesday'] == "Wednesday") {
+    $newroute["wednesday"] = 1;
+  }
+  else {
+    $newroute["wednesday"] = 0;
+  }
+  if ($_POST['thursday'] == "Thursday") {
+    $newroute["thursday"] = 1;
+  }
+  else {
+    $newroute["thursday"] = 0;
+  }
+  if ($_POST['friday'] == "Friday") {
+    $newroute["friday"] = 1;
+  }
+  else {
+    $newroute["friday"] = 0;
+  }
+  if ($_POST['saturday'] == "Saturday") {
+    $newroute["saturday"] = 1;
+  }
+  else {
+    $newroute["saturday"] = 0;
+  }
 
     $sql2 	 = "UPDATE route SET ";
-    $sql2 	.= "routeNumber='" . $newroute["rno"] . "', ";
-    $sql2 	.= "busNumber='" . $newroute["bno"] . "', ";
-    $sql2 	.= "source='" . $newroute["src"] . "', ";
-    $sql2 	.= "destination='" . $newroute["dest"] . "', ";
-    $sql2 	.= "arrivalTime='" . $newroute["arrTime"] . "', ";
-    $sql2 	.= "departTime='" . $newroute["deptTime"] . "', ";
-    $sql2 	.= "is_available_Saturday='" . $newroute["is_available_Sat"] . "' ";
-    $sql2 	.= "WHERE id= '" . $id . "' ";
+    $sql2 	.= "from_address='" . $newroute["src"] . "', ";
+    $sql2 	.= "to_address='" . $newroute["dest"] . "', ";
+    $sql2 	.= "time='" . $newroute["time"] . "', ";
+    $sql2 	.= "is_avail_monday=" . $newroute["monday"] . ", ";
+    $sql2 	.= "is_avail_tuesday=" . $newroute["tuesday"] . ", ";
+    $sql2 	.= "is_avail_wednesday=" . $newroute["wednesday"] . ", ";
+    $sql2 	.= "is_avail_thursday=" . $newroute["thursday"] . ", ";
+    $sql2 	.= "is_avail_friday=" . $newroute["friday"] . ", ";
+    $sql2 	.= "is_avail_saturday=" . $newroute["saturday"] . " ";
+    $sql2 	.= "WHERE route_id=" . $id . " ";
 
     $results2 = mysqli_query($connection, $sql2);
 
@@ -121,7 +145,81 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<?php include 'master-page/left-panel.php' ?>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sufee Admin - HTML5 Admin Template</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+    <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
+    <link rel="stylesheet" href="assets/scss/style.css">
+    <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+
+</head>
+<body>
+
+
+        <!-- Left Panel -->
+
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+            </div>
+
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="index.html"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+                    </li>
+                    <h3 class="menu-title">Routes</h3><!-- /.menu-title -->
+                    <li class="menu-item-has-children dropdown">
+                            <a href="tables-basic.php"><i class="menu-icon fa fa-table"></i>View All Routes</a>
+                    </li>
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="add-route.php"> <i class="menu-icon fa fa-laptop"></i>Add a Route</a>
+                    </li>
+
+                    <h3 class="menu-title">Manage User</h3><!-- /.menu-title -->
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#"> <i class="menu-icon fa fa-tasks"></i>Add user</a>
+                    </li>
+
+                    <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
+                    <li class="menu-item">
+                        <a href="#"> <i class="menu-icon fa fa-glass"></i>Logout</a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->
+
     <!-- Right Panel -->
 
     <div id="right-panel" class="right-panel">
@@ -288,50 +386,196 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="col-lg-12">
                               <div class="form-group"><label for="Time" class=" form-control-label">Time</label>
                                 <select name="hours">
-                                    <option value="01" <?php $hour == 1 ? ' selected' : '';?>>01</option>
-                                    <option value="2">02</option>
-                                    <option value="3">03</option>
-                                    <option value="4" <?php $hour == 4 ? ' selected' : '';?>>04</option>
-                                    <option value="5">05</option>
-                                    <option value="6">06</option>
-                                    <option value="7">07</option>
-                                    <option value="8" >08</option>
-                                    <option value="9">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                  </select>
-                                  <select name="minutes">
-                                    <option value="0">00</option>
-                                    <option value="05">05</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="25">25</option>
-                                    <option value="30">30</option>
-                                    <option value="35">35</option>
-                                    <option value="40">40</option>
-                                    <option value="45">45</option>
-                                    <option value="50">50</option>
-                                    <option value="55">55</option>
-                                    <option value="60">60</option>
-                                  </select>
-                                  <select name="ampm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                  </select>
+                                  <?php
+                                    if ($hour == 1) {
+                                      echo '<option value="01" selected>01</option>';
+                                    } else {
+                                      echo '<option value="01">01</option>';
+                                    }
+                                    if ($hour == 2) {
+                                      echo '<option value="02" selected>02</option>';
+                                    } else {
+                                      echo '<option value="02">02</option>';
+                                    }
+                                    if ($hour == 3) {
+                                      echo '<option value="03" selected>03</option>';
+                                    } else {
+                                      echo '<option value="03">03</option>';
+                                    }
+                                    if ($hour == 4) {
+                                      echo '<option value="04" selected>04</option>';
+                                    } else {
+                                      echo '<option value="04">04</option>';
+                                    }
+                                    if ($hour == 5) {
+                                      echo '<option value="05" selected>05</option>';
+                                    } else {
+                                      echo '<option value="05">05</option>';
+                                    }
+                                    if ($hour == 6) {
+                                      echo '<option value="06" selected>06</option>';
+                                    } else {
+                                      echo '<option value="06">06</option>';
+                                    }
+                                    if ($hour == 7) {
+                                      echo '<option value="07" selected>07</option>';
+                                    } else {
+                                      echo '<option value="07">07</option>';
+                                    }
+                                    if ($hour == 8) {
+                                      echo '<option value="08" selected>08</option>';
+                                    } else {
+                                      echo '<option value="08">08</option>';
+                                    }
+                                    if ($hour == 9) {
+                                      echo '<option value="09" selected>09</option>';
+                                    } else {
+                                      echo '<option value="09">09</option>';
+                                    }
+                                    if ($hour == 10) {
+                                      echo '<option value="10" selected>10</option>';
+                                    } else {
+                                      echo '<option value="10">10</option>';
+                                    }
+                                    if ($hour == 11) {
+                                      echo '<option value="11" selected>11</option>';
+                                    } else {
+                                      echo '<option value="11">11</option>';
+                                    }
+                                    if ($hour == 12) {
+                                      echo '<option value="12" selected>12</option>';
+                                    } else {
+                                      echo '<option value="12">12</option>';
+                                    }
+                                  echo '</select>';
+                                  echo '<select name="minutes">';
+                                  if ($minute == 0) {
+                                    echo '<option value="0" selected>00</option>';
+                                  } else {
+                                    echo '<option value="0">00</option>';
+                                  }
+                                  if ($minute == 5) {
+                                    echo '<option value="5" selected>05</option>';
+                                  } else {
+                                    echo '<option value="5">05</option>';
+                                  }
+                                  if ($minute == 10) {
+                                    echo '<option value="10" selected>10</option>';
+                                  } else {
+                                    echo '<option value="10">10</option>';
+                                  }
+                                  if ($minute == 15) {
+                                    echo '<option value="15" selected>15</option>';
+                                  } else {
+                                    echo '<option value="15">15</option>';
+                                  }
+                                  if ($minute == 20) {
+                                    echo '<option value="20" selected>20</option>';
+                                  } else {
+                                    echo '<option value="20">20</option>';
+                                  }
+                                  if ($minute == 25) {
+                                    echo '<option value="25" selected>25</option>';
+                                  } else {
+                                    echo '<option value="25">25</option>';
+                                  }
+                                  if ($minute == 30) {
+                                    echo '<option value="30" selected>30</option>';
+                                  } else {
+                                    echo '<option value="30">30</option>';
+                                  }
+                                  if ($minute == 35) {
+                                    echo '<option value="35" selected>35</option>';
+                                  } else {
+                                    echo '<option value="35">35</option>';
+                                  }
+                                  if ($minute == 40) {
+                                    echo '<option value="40" selected>40</option>';
+                                  } else {
+                                    echo '<option value="40">40</option>';
+                                  }
+                                  if ($minute == 45) {
+                                    echo '<option value="45" selected>45</option>';
+                                  } else {
+                                    echo '<option value="45">45</option>';
+                                  }
+                                  if ($minute == 50) {
+                                    echo '<option value="50" selected>50</option>';
+                                  } else {
+                                    echo '<option value="50">50</option>';
+                                  }
+                                  if ($minute == 55) {
+                                    echo '<option value="55" selected>55</option>';
+                                  } else {
+                                    echo '<option value="55">55</option>';
+                                  }
+                                  if ($minute == 60) {
+                                    echo '<option value="60" selected>60</option>';
+                                  } else {
+                                    echo '<option value="60">60</option>';
+                                  }
+                                  echo '</select>';
+                                  echo '<select name="ampm">';
+                                  if ($ampm == "AM") {
+                                    echo '<option value="AM" selected>AM</option>';
+                                  } else {
+                                    echo '<option value="AM">AM</option>';
+                                  }
+                                  if ($ampm == "PM") {
+                                    echo '<option value="PM" selected>PM</option>';
+                                  } else {
+                                    echo '<option value="PM">PM</option>';
+                                  }
+                                  echo '</select>';
+                                  ?>
                               </div>
                             </div>
                           </div>
                           <div class = "row">
                             <div class="col-lg-6">
                               <div class="form-group"><label for="Availability" class=" form-control-label">Availability</label><br>
-                                <input type="checkbox" name="monday" value="Monday"> Monday<br>
-                                <input type="checkbox" name="tuesday" value="Tuesday"> Tuesday<br>
-                                <input type="checkbox" name="wednesday" value="Wednesday"> Wednesday<br>
-                                <input type="checkbox" name="thursday" value="Thursday"> Thursday<br>
-                                <input type="checkbox" name="friday" value="Friday"> Friday<br>
-                                <input type="checkbox" name="saturday" value="Saturday"> Saturday<br>
+                                <?php
+                                  if ($is_avail_monday == 1) {
+                                    echo '<input type="checkbox" name="monday" value="Monday" checked> Monday<br>';
+                                  } else {
+                                    echo '<input type="checkbox" name="monday" value="Monday"> Monday<br>';
+                                  }
+                                ?>
+                                <?php
+                                  if ($is_avail_tuesday == 1) {
+                                    echo '<input type="checkbox" name="tuesday" value="Tuesday" checked> Tuesday<br>';
+                                  } else {
+                                    echo '<input type="checkbox" name="tuesday" value="Tuesday"> Tuesday<br>';
+                                  }
+                                ?>
+                                <?php
+                                  if ($is_avail_wednesday == 1) {
+                                    echo '<input type="checkbox" name="wednesday" value="Wednesday" checked> Wednesday<br>';
+                                  } else {
+                                    echo '<input type="checkbox" name="wednesday" value="Wednesday"> Wednesday<br>';
+                                  }
+                                ?>
+                                <?php
+                                  if ($is_avail_thursday == 1) {
+                                    echo '<input type="checkbox" name="thursday" value="Thursday" checked> Thursday<br>';
+                                  } else {
+                                    echo '<input type="checkbox" name="thursday" value="Thursday"> Thursday<br>';
+                                  }
+                                ?>
+                                <?php
+                                  if ($is_avail_friday == 1) {
+                                    echo '<input type="checkbox" name="friday" value="Friday" checked> Friday<br>';
+                                  } else {
+                                    echo '<input type="checkbox" name="friday" value="Friday"> Friday<br>';
+                                  }
+                                ?>
+                                <?php
+                                  if ($is_avail_saturday == 1) {
+                                    echo '<input type="checkbox" name="saturday" value="Saturday" checked> Saturday<br>';
+                                  } else {
+                                    echo '<input type="checkbox" name="saturday" value="Saturday"> Saturday<br>';
+                                  }
+                                ?>
                               </div>
                             </div>
                           </div>
@@ -349,15 +593,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   </div><!-- .animated -->
         </div><!-- .content -->
     </div><!-- /#right-panel -->
-    <script src="../assets/js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="../assets/js/popper.min.js"></script>
-    <script src="../assets/js/plugins.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
 
   </body>
 </html>
- <?php 
-}else{
-  header("Location: " . "../log.php");
-}
-  ?>

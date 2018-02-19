@@ -45,13 +45,16 @@
                     <li class="active">
                         <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
                     </li>
-                    <h3 class="menu-title">Routes</h3><!-- /.menu-title -->
+                    <h3 class="menu-title">Bus Routes</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                             <a href="index.php"><i class="menu-icon fa fa-table"></i>View All Routes</a>
                     </li>
 
                     <li class="menu-item-has-children dropdown">
-                        <a href="add-route.php"> <i class="menu-icon fa fa-laptop"></i>Add a Route</a>
+                        <a href="add-route.php"> <i class="menu-icon fa fa-laptop"></i>Add Route</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="delaynotification.php"> <i class="menu-icon fa fa-laptop"></i>Notify Delay</a>
                     </li>
 
                     <h3 class="menu-title">Manage User</h3><!-- /.menu-title -->

@@ -5,7 +5,7 @@
 	 
 	 define("DBHost","localhost" );
 	 	 define("DBUser","root" );
-		 	 define("DBPass","root" );
+		 	 define("DBPass","" );
 			 	 define("DBName","transit" );
 	 
 	 
