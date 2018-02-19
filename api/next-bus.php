@@ -1,9 +1,10 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-if (isset($_GET["toAddress"]) == FALSE ) {
+if (!isset($_GET["toAddress"])  || !isset($_GET["fromAddress"]) ) {
     
-    header("Location: " . "../student/index.php");
+    header("Location: " .
+     "../student/index.php");
     exit();
   }
   $toAddress = $_GET["toAddress"];

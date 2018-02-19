@@ -61,22 +61,27 @@
     <script src="../assets/js/plugins.js"></script>
     <script src="../assets/js/main.js"></script>
 
-    <script>
+<script>
     $( document ).ready(function() {
         console.log( "ready!" );
         var urlAdd = "../api/get-all-bus.php";
         $.ajax({type: "GET",
         url: urlAdd,        
         success:function(result) {
-            $("tbody").append('
-            <tr class="btnDelete" data-id="2"><th scope="row">'+
-             $route['route_id']; ?></th>
-                                  <td><?php echo $route['from_address']; ?></td>
-                                  <td><?php echo $route['to_address']; ?></td>
-                                  <td><?php echo $route['time']; ?></td>
-                                  <td><a href = "<?php echo 'edit-route.php?id=' . $route['route_id']; ?>">Google Map</a> </td>
-                                 
-                                </tr>')
+            if(result.length !=0){
+                console.log(result);
+                for (i = 0; i < result.length; i++) { 
+                $("tbody").append('<tr class="btnDelete" data-id="2"><th scope="row">'+
+                result[i].route_id +'</th>'+
+                                  '<td>'+result[i].from_address+'</td>'+
+                                  '<td>'+result[i].to_address+'</td>'+
+                                  '<td>'+result[i].time+'</td>'+
+                                  '<td>'+'<a href = "'+'">Google Map</a> </td>' +
+                                   '</tr>');       
+                }
+            }
+            
+
         },
         error:function(result) {
             $("#nextBusError").html(
@@ -86,7 +91,9 @@
                 );
         }
     });
+    });
     </script>
+
 
 </body>
 </html>
