@@ -1,23 +1,3 @@
-<?php 
-session_start();
-
-if(isset($_COOKIE['tokenid'])) 
- { 
-  $tokenID = $_COOKIE['tokenid'];
-
-  require("../dbconnection.php");
-  $connection = connect();
-  
-  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
-
-  $results2 = mysqli_query($connection, $sql2);     
-  $correctuser = mysqli_fetch_assoc($results2);
-  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername'])  {
-    // there was an error in the sql 
-    header("Location: " . "../log.php");
-    exit();
-  }
-?>
 
 
 <?php include 'master-page/left-panel.php' ?>
@@ -93,7 +73,7 @@ if(isset($_COOKIE['tokenid']))
                                   '<td>'+result[i].from_address+'</td>'+
                                   '<td>'+result[i].to_address+'</td>'+
                                   '<td>'+result[i].time+'</td>'+
-                                  '<td>'+'<a href = "'+'">Google Map</a> </td>' +
+                                  '<td>'+'<a target="_blank"  href = "showrouteonmap.php?id='+result[i].route_id+'">Google Map</a> </td>' +
                                    '</tr>');       
                 }
             }
@@ -114,8 +94,3 @@ if(isset($_COOKIE['tokenid']))
 
 </body>
 </html>
-<?php 
-}else{
-  header("Location: " . "../log.php");
-}
-  ?>

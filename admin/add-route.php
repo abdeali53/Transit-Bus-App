@@ -1,62 +1,36 @@
-<?php if(isset($_COOKIE['tokenid'])) 
- { 
-  $tokenID = $_COOKIE['tokenid'];
-
-  require("../dbconnection.php");
-  $connection = connect();
-  
-  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
-
-  $results2 = mysqli_query($connection, $sql2);     
-  $correctuser = mysqli_fetch_assoc($results2);
-  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
-    // there was an error in the sql 
-    echo "erro";
-    // header("Location: " . "../log.php");
-    exit();
-  }
-  
-?>
 <?php
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Get the form values that were sent by addEmployee.php
-
 $newroute = [];
 $newroute["source"] = $_POST['source'];
 $newroute["destination"] = $_POST['destination'];
 $newroute["hours"] = $_POST['hours'];
 $newroute["minutes"] = $_POST['minutes'];
 $newroute["ampm"] = $_POST['ampm'];
-$newroute["monday"] = $_POST['monday'];
-$newroute["tuesday"] = $_POST['tuesday'];
-$newroute["wednesday"] = $_POST['wednesday'];
-$newroute["thursday"] = $_POST['thursday'];
-$newroute["friday"] = $_POST['friday'];
-$newroute["saturday"] = $_POST['saturday'];
 
 $monday = 0;
 $tuesday = 0;
 $wednesday = 0;
-$tursday = 0;
+$thursday = 0;
 $friday = 0;
 $saturday = 0;
-if ($newroute['monday'] != "") {
+if (!isset($_POST['monday'])) {
   $monday = 1;
 }
-if ($newroute['tuesday'] != "") {
+if (!isset($_POST['tuesday'])) {
   $tuesday = 1;
 }
-if ($newroute['wednesday'] != "") {
+if (!isset($_POST['wednesday'])) {
   $wednesday = 1;
 }
-if ($newroute['thursday'] != "") {
+if (!isset($_POST['thursday'])) {
   $thursday = 1;
 }
-if ($newroute['friday'] != "") {
+if (!isset($_POST['friday'])) {
   $friday = 1;
 }
-if ($newroute['saturday'] != "") {
+if (!isset($_POST['saturday'])) {
   $saturday = 1;
 }
 
@@ -78,12 +52,12 @@ $sql .= "(";
 $sql .= "'" . $newroute["source"] . "', ";
 $sql .= "'" . $newroute["destination"] . "', ";
 $sql .= "'" . $time . "', ";
-$sql .= "'" . $newroute["monday"] . "', ";
-$sql .= "'" . $newroute["tuesday"] . "', ";
-$sql .= "'" . $newroute["wednesday"] . "', ";
-$sql .= "'" . $newroute["thursday"] . "', ";
-$sql .= "'" . $newroute["friday"] . "', ";
-$sql .= "'" . $newroute["saturday"] . "'";
+$sql .= "'" . $monday . "', ";
+$sql .= "'" . $tuesday . "', ";
+$sql .= "'" . $wednesday . "', ";
+$sql .= "'" . $thursday . "', ";
+$sql .= "'" . $friday . "', ";
+$sql .= "'" . $saturday . "'";
 $sql .= ")";
 
 $results = mysqli_query($connection, $sql);
@@ -96,7 +70,7 @@ if ($results == FALSE) {
   }else{
       // 5. Close database connection
       mysqli_close($connection);
-      header("Location: " . "tables-basic.php");
+      header("Location: " . "index.php");
   }
 
 // 4. Release returned data
@@ -168,12 +142,12 @@ if ($results == FALSE) {
                             <div class = "row">
                               <div class="col-lg-6">
                                 <div class="form-group"><label for="Availability" class=" form-control-label">Availability</label><br>
-                                  <input type="checkbox" name="monday" value="Monday"> Monday<br>
-                                  <input type="checkbox" name="tuesday" value="Tuesday"> Tuesday<br>
-                                  <input type="checkbox" name="wednesday" value="Wednesday"> Wednesday<br>
-                                  <input type="checkbox" name="thursday" value="Thursday"> Thursday<br>
-                                  <input type="checkbox" name="friday" value="Friday"> Friday<br>
-                                  <input type="checkbox" name="saturday" value="Saturday"> Saturday<br>
+                                  <input type="checkbox" name="monday" value=0> Monday<br>
+                                  <input type="checkbox" name="tuesday" value=0> Tuesday<br>
+                                  <input type="checkbox" name="wednesday" value='0'> Wednesday<br>
+                                  <input type="checkbox" name="thursday" value='0'> Thursday<br>
+                                  <input type="checkbox" name="friday" value='0'> Friday<br>
+                                  <input type="checkbox" name="saturday" value='0'> Saturday<br>
                                 </div>
                               </div>
                             </div>
@@ -204,8 +178,3 @@ if ($results == FALSE) {
 
   </body>
 </html>
- <?php 
-}else{
-  header("Location: " . "../log.php");
-}
-  ?>
