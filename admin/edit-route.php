@@ -1,8 +1,27 @@
+<?php if(isset($_COOKIE['tokenid'])) 
+ { 
+  $tokenID = $_COOKIE['tokenid'];
+
+  require("../dbconnection.php");
+  $connection = connect();
+  
+  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
+
+  $results2 = mysqli_query($connection, $sql2);     
+  $correctuser = mysqli_fetch_assoc($results2);
+  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
+    // there was an error in the sql 
+    echo "erro";
+    // header("Location: " . "../log.php");
+    exit();
+  }
+  
+?>
 <?php
 if (isset($_GET["id"]) == FALSE) {
   // missing an id parameters, so
   // redirect person back to add employee page
-  header("Location: " . "index.html");
+  header("Location: " . "index.php");
   exit();
 }
 
@@ -12,17 +31,8 @@ $id = $_GET["id"];
 
 // @TODO: your database code should  here
 //---------------------------------------------------
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "transit_database";
-
-$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-if (mysqli_connect_errno())
-{
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
+require("../dbconnection.php");
+$connection = connect();
 
 $sql 	 = "SELECT * FROM route ";
 $sql 	.= "WHERE route_id='" . $id . "'";
@@ -346,3 +356,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   </body>
 </html>
+ <?php 
+}else{
+  header("Location: " . "../log.php");
+}
+  ?>

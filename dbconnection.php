@@ -5,8 +5,8 @@
 	 
 	 define("DBHost","localhost" );
 	 	 define("DBUser","root" );
-		 	 define("DBPass","" );
-			 	 define("DBName","transit_database" );
+		 	 define("DBPass","root" );
+			 	 define("DBName","transit" );
 	 
 	 
  function connect(){

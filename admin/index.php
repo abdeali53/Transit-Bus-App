@@ -1,6 +1,24 @@
+<?php if(isset($_COOKIE['tokenid'])) 
+ { 
+  $tokenID = $_COOKIE['tokenid'];
+
+  require("../dbconnection.php");
+  $connection = connect();
+  
+  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
+
+  $results2 = mysqli_query($connection, $sql2);     
+  $correctuser = mysqli_fetch_assoc($results2);
+  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
+    // there was an error in the sql 
+    echo "erro";
+    // header("Location: " . "../log.php");
+    exit();
+  }
+  
+?>
+
 <?php include 'master-page/left-panel.php' ?>
-
-
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
@@ -22,8 +40,8 @@
 
                                 $dbhost = "localhost";
                                 $dbuser = "root";
-                                $dbpass = "";
-                                $dbname = "transit_database";
+                                $dbpass = "root";
+                                $dbname = "transit";
 
                                 // 1. Create a database connection
                                 $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
@@ -44,24 +62,19 @@
                                   <th scope="row"><?php echo $route['route_id']; ?></th>
                                   <td><?php echo $route['from_address']; ?></td>
                                   <td><?php echo $route['to_address']; ?></td>
-                                  <td><?php echo $route['time']; ?></td>
+                                  <td><?php  echo $route['time']; ?></td>
                                   <td><a href = "<?php echo 'edit-route.php?id=' . $route['route_id']; ?>">Edit</a> <a href="<?php echo 'delete-route.php?id=' . $route['route_id']; ?>">delete</a>
                                   <?php } ?>
                                 </tr>
                               </tbody>
                             </table>
-                             
+
                         </div>
                     </div>
                 </div>
-
-
-
                 </div>
             </div><!-- .animated -->
         </div><!-- .content -->
-
-
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
@@ -77,6 +90,11 @@
     mysqli_free_result($results);
     mysqli_close($connection);
   ?>
-
 </body>
 </html>
+ <?php 
+}else{
+  header("Location: " . "../log.php");
+}
+  ?>
+
