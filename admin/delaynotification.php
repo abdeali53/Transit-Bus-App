@@ -20,7 +20,7 @@
 
                                 $dbhost = "localhost";
                                 $dbuser = "root";
-                                $dbpass = "";
+                                $dbpass = "root";
                                 $dbname = "transit";
 
                                 // 1. Create a database connection

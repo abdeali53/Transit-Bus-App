@@ -1,20 +1,4 @@
-<?php if(isset($_COOKIE['tokenid'])) 
- { 
-  $tokenID = $_COOKIE['tokenid'];
 
-  require("../dbconnection.php");
-  $connection = connect();
-  
-  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
-
-  $results2 = mysqli_query($connection, $sql2);     
-  $correctuser = mysqli_fetch_assoc($results2);
-  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
-    // there was an error in the sql 
-    header("Location: " . "../log.php");
-    exit();
-  }
-?>
 <?php include 'master-page/left-panel.php' ?>
 
         <!-- Left Panel -->
@@ -37,7 +21,7 @@
                                 <tr>
                                   <th scope="col">Name</th>
                                   <th scope="col">Email</th>
-                                  <th scope="col">Password</th>
+                                  <th scope="col">Phone_number</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -54,7 +38,7 @@
                                 <tr>
                                   <th scope="row"><?php echo $user['name']; ?></th>
                                   <td><?php echo $user['email']; ?></td>
-                                  <td><?php echo $user['password']; ?></td>
+                                  <td><?php echo $user['phone_number']; ?></td>
                                   <?php } ?>
                                 </tr>
                               </tbody>
@@ -81,16 +65,5 @@
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
 
-    <?php
-    // clean up and close database
-    mysqli_free_result($results);
-    mysqli_close($connection);
-  ?>
-
 </body>
 </html>
- <?php 
-}else{
-  header("Location: " . "../log.php");
-}
-  ?>

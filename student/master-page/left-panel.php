@@ -59,8 +59,9 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="view-all-tickcet.php"> <i class="menu-icon fa fa-tasks"></i>View All Ticket</a>
                     </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="view-tickcet.php"> <i class="menu-icon fa fa-tasks"></i>Last Booked</a>
+                     <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
+                    <li class="menu-item">
+                        <a href="logout.php"> <i class="menu-icon fa fa-glass"></i>Logout</a>
                     </li>
 
                 </ul>

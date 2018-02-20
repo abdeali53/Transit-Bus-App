@@ -114,7 +114,7 @@ while ($user = mysqli_fetch_assoc($results)) {
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Material Design Login Form</title>
+  <title>Login</title>
   <link rel="stylesheet" href="css/style2.css">
   <style>
   #sign-up{display: none;}

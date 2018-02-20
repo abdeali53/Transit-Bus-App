@@ -81,6 +81,25 @@ if ($results == FALSE) {
 }
 ?>
 
+<?php if(isset($_COOKIE['tokenid'])) 
+ { 
+  $tokenID = $_COOKIE['tokenid'];
+
+  require("../dbconnection.php");
+  $connection = connect();
+  
+  $sql2  = "SELECT * FROM validsessions where tokenid =" . $tokenID;
+
+  $results2 = mysqli_query($connection, $sql2);     
+  $correctuser = mysqli_fetch_assoc($results2);
+  if ($results2 == FALSE ||  $correctuser['username'] != $_COOKIE['tokenusername']) {
+    // there was an error in the sql 
+    header("Location: " . "../log.php");
+    exit();
+  }
+  
+?>
+
 <?php include 'master-page/left-panel.php' ?><!-- /#left-panel -->
 
     <!-- Right Panel -->
@@ -178,3 +197,9 @@ if ($results == FALSE) {
 
   </body>
 </html>
+ <?php 
+}else{
+  header("Location: " . "../log.php");
+}
+  ?>
+
